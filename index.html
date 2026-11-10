@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Reviewer">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Topic 6 & Life Safety Reviewer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#2A2342">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: mobile-first study app. Indigo app bar, one screen at a time (home, quiz, results); topics in a bottom sheet on phones and a sidebar on wide screens; thumb-reach action bar. Question type (choice / identification / true-false / mixed) is a segmented control. */
+:root{
+  --bg:#EFEEF4; --surface:#FFFFFF; --sunk:#F6F5F9; --ink:#1C1A26; --muted:#5D5A6E; --line:#DAD7E3;
+  --accent:#5B32C7; --accent-ink:#FFFFFF; --accent-soft:#ECE6FB; --accent-bright:#F4B740;
+  --band:#2A2342; --band-2:#41356B; --band-ink:#F4F2FA; --band-muted:#BDB4D8;
+  --good:#1D7448; --good-bg:#E1F3E9; --bad:#B42318; --bad-bg:#FCE8E6;
+  --shadow:0 1px 2px rgba(26,31,38,.06),0 8px 24px rgba(26,31,38,.07);
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#100E18; --surface:#1A1724; --sunk:#14121D; --ink:#EAE8F1; --muted:#A39FB5; --line:#2E2A3D;
+  --accent:#B9A2F8; --accent-ink:#17112A; --accent-soft:#2B2147; --accent-bright:#F4B740;
+  --band:#1A1530; --band-2:#2A2148; --band-ink:#F1EFF8; --band-muted:#A79FC4;
+  --good:#5DC48D; --good-bg:#12301F; --bad:#F28C82; --bad-bg:#3B1A18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#100E18; --surface:#1A1724; --sunk:#14121D; --ink:#EAE8F1; --muted:#A39FB5; --line:#2E2A3D;
+  --accent:#B9A2F8; --accent-ink:#17112A; --accent-soft:#2B2147; --accent-bright:#F4B740;
+  --band:#1A1530; --band-2:#2A2148; --band-ink:#F1EFF8; --band-muted:#A79FC4;
+  --good:#5DC48D; --good-bg:#12301F; --bad:#F28C82; --bad-bg:#3B1A18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--band)}
+
+/* app bar */
+.appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--band);color:var(--band-ink)}
+.appbar-in{display:flex;align-items:center;gap:12px;height:58px;max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;min-width:0;flex:1;border-radius:8px}
+.brand:focus-visible{outline:2px solid var(--accent-bright)}
+.seal{flex:0 0 auto;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:var(--accent-bright);color:#1E1608;font-family:var(--f-display);font-weight:700;font-size:15px;letter-spacing:.02em}
+.brand-txt{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.brand-txt small{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--band-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-txt b{font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topics-btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:99px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-weight:600;font-size:14px;color:var(--band-ink)}
+.topics-btn:hover{background:rgba(255,255,255,.16)}
+.topics-btn:focus-visible{outline:2px solid var(--accent-bright)}
+.topics-btn svg{width:18px;height:18px}
+.prog{height:3px;background:rgba(255,255,255,.12)}
+.prog i{display:block;height:100%;width:0;background:var(--accent-bright);transition:width .3s}
+
+.shell{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{min-width:0;padding-block:16px 32px}
+
+/* topic sheet */
+.sheet{position:fixed;z-index:50;left:0;right:0;bottom:0;max-height:min(84vh,760px);display:flex;flex-direction:column;background:var(--surface);border-radius:20px 20px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.25);transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);padding-bottom:env(safe-area-inset-bottom,0px);visibility:hidden}
+.sheet.open{transform:none;visibility:visible}
+.backdrop{position:fixed;inset:0;z-index:40;background:rgba(8,12,16,.5);opacity:0;pointer-events:none;transition:opacity .25s}
+.backdrop.open{opacity:1;pointer-events:auto}
+.grab{width:40px;height:4px;border-radius:99px;background:var(--line);margin:10px auto 0}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;padding:10px 20px 8px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.sheet-head h2{font-family:var(--f-display);font-size:22px;margin:0;letter-spacing:.02em}
+.icon-btn{all:unset;cursor:pointer;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.icon-btn:hover{background:var(--sunk);color:var(--ink)}
+.icon-btn:focus-visible{outline:2px solid var(--accent)}
+.icon-btn svg{width:20px;height:20px}
+#nav{overflow-y:auto;overscroll-behavior:contain;padding:4px 12px 8px;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:2px}
+.group-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:14px 10px 6px}
+.nav-item{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;min-height:56px;padding:8px 10px;border-radius:12px}
+.nav-item:hover{background:var(--sunk)}
+.nav-item:focus-visible{outline:2px solid var(--accent)}
+.nav-item[aria-current="true"]{background:var(--accent-soft)}
+.badge{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:16px;color:var(--accent);background:var(--sunk);border:1px solid var(--line)}
+.nav-item[aria-current="true"] .badge{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.nav-txt{min-width:0}
+.nav-txt b{display:block;font-weight:600;font-size:15px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-txt span{display:block;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-pct{font-size:12px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-pct.good{color:var(--good)}
+.sheet-foot{border-top:1px solid var(--line);padding:12px 16px 14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:10px}
+.foot-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* segmented control */
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px;border-radius:12px;background:var(--sunk);border:1px solid var(--line)}
+.seg button{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;min-height:42px;padding:4px 2px;border-radius:9px;font-weight:600;font-size:13.5px;line-height:1.15;color:var(--muted);display:grid;place-items:center}
+.seg button small{display:block;font-weight:500;font-size:10.5px;opacity:.8}
+.seg button:hover{color:var(--ink)}
+.seg button:focus-visible{outline:2px solid var(--accent)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.seg button[aria-pressed="true"] small{color:var(--accent);opacity:1}
+
+/* switch */
+.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;font-size:14px;min-height:40px}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch .track{flex:0 0 auto;width:44px;height:26px;border-radius:99px;background:var(--line);position:relative;transition:background .2s}
+.switch .track::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.switch input:checked + .track{background:var(--accent)}
+.switch input:checked + .track::after{transform:translateX(18px)}
+.switch input:focus-visible + .track{outline:2px solid var(--accent);outline-offset:2px}
+
+/* home */
+.hero{position:relative;overflow:hidden;border-radius:var(--r);background:linear-gradient(135deg,var(--band) 0%,var(--band-2) 100%);color:var(--band-ink);padding:24px 20px 38px}
+.hero::before{content:"";position:absolute;inset:0;opacity:.08;background-image:linear-gradient(var(--band-ink) 1px,transparent 1px),linear-gradient(90deg,var(--band-ink) 1px,transparent 1px);background-size:22px 22px}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;opacity:.7;background-repeat:repeat-x;background-size:50px 16px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 16'%3E%3Cg stroke='%23F4B740' stroke-width='1.4'%3E%3Cpath d='M0.7 16V2'/%3E%3Cpath d='M10.7 16V10'/%3E%3Cpath d='M20.7 16V10'/%3E%3Cpath d='M30.7 16V10'/%3E%3Cpath d='M40.7 16V10'/%3E%3Cpath d='M25.7 16V6'/%3E%3C/g%3E%3C/svg%3E")}
+.hero > *{position:relative}
+.kicker{margin:0;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-bright);font-weight:600}
+.hero h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,9vw,52px);line-height:1;margin:8px 0 8px;letter-spacing:.01em;text-wrap:balance}
+.hero p.lead{margin:0;color:var(--band-muted);max-width:50ch;font-size:15px}
+.hstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px;max-width:440px}
+.hstat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px 12px}
+.hstat b{display:block;font-family:var(--f-mono);font-size:19px;font-variant-numeric:tabular-nums;line-height:1.2}
+.hstat span{font-size:12px;color:var(--band-muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-top:14px}
+.panel.raised{box-shadow:var(--shadow)}
+.panel h2{font-family:var(--f-display);font-size:23px;margin:0;letter-spacing:.01em;line-height:1.1}
+.panel p.hint{margin:4px 0 12px;color:var(--muted);font-size:14px}
+.overall-top{display:flex;align-items:center;gap:14px}
+.chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:14px}
+.chip{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;min-height:50px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--line);background:var(--sunk);font-weight:600;font-size:15px;font-variant-numeric:tabular-nums;line-height:1.15}
+.chip small{display:block;font-weight:500;font-size:11px;color:var(--muted)}
+.chip:hover{border-color:var(--accent)}
+.chip:focus-visible{outline:2px solid var(--accent)}
+.chip.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip.primary small{color:inherit;opacity:.85}
+.resume{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;padding:10px 12px 10px 14px;border-radius:12px;background:var(--accent-soft);font-size:14px}
+.sec-title{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:26px 2px 10px}
+.tgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.tcard{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 14px;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);transition:border-color .15s,transform .15s}
+.tcard:hover{border-color:var(--accent)}
+.tcard:active{transform:scale(.99)}
+.tcard:focus-visible{outline:2px solid var(--accent)}
+.tcard .badge{grid-row:span 3;width:44px;height:44px;font-size:17px}
+.tcard h3{margin:0;font-size:16px;font-weight:600;line-height:1.3}
+.tcard h3 span{font-family:var(--f-mono);font-weight:500;font-size:11.5px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.tcard p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tmeta{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mini{flex:1;height:5px;border-radius:99px;background:var(--sunk);border:1px solid var(--line);overflow:hidden}
+.mini i{display:block;height:100%;background:var(--accent)}
+.best{font-weight:600}
+.best.good{color:var(--good)}
+.diffs{display:grid;gap:10px}
+.diff{border:1px solid var(--line);border-left:4px solid var(--lv);border-radius:12px;padding:14px;background:var(--sunk)}
+.diff-easy{--lv:var(--good)} .diff-medium{--lv:var(--accent-bright)} .diff-hard{--lv:var(--bad)}
+.diff-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.diff-head b{font-family:var(--f-display);font-size:22px}
+.diff-head span{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.diff p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+.diff .chips{margin-top:10px}
+@media (min-width:900px){.diffs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.foot-note{color:var(--muted);font-size:12.5px;text-align:center;margin:26px 0 0}
+
+/* quiz */
+.qtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.back{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px;min-height:40px;padding:0 10px 0 4px;border-radius:10px;color:var(--muted);font-size:14px;font-weight:500}
+.back:hover{color:var(--ink);background:var(--surface)}
+.back:focus-visible{outline:2px solid var(--accent)}
+.back svg{width:18px;height:18px}
+.pill{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.pill .dot{width:8px;height:8px;border-radius:2px;background:var(--accent)}
+.quiz-seg{margin-bottom:12px}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 16px 18px;box-shadow:var(--shadow)}
+.qmeta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 8px;margin-bottom:12px}
+.qnum{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+.qtag{font-size:12px;color:var(--muted);background:var(--sunk);border:1px solid var(--line);border-radius:99px;padding:2px 10px;font-weight:500}
+.qtag.kind{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+.ask{font-size:13px;font-weight:600;color:var(--muted);margin:0 0 6px;letter-spacing:.02em}
+.q{font-size:clamp(18px,4.8vw,21px);line-height:1.5;font-weight:500;margin:0 0 18px;text-wrap:pretty}
+.blank{display:inline-block;min-width:4.5em;border-bottom:2.5px solid var(--accent);margin:0 2px;transform:translateY(-3px)}
+mark{background:var(--accent-soft);color:var(--ink);padding:0 4px;border-radius:4px;font-weight:700;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.code{font-family:var(--f-mono);font-size:.94em}
+.opts{display:grid;gap:10px}
+.opts.tf{grid-template-columns:1fr 1fr}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:32px minmax(0,1fr) 22px;gap:12px;align-items:center;min-height:58px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--sunk);font-size:16px;line-height:1.38;transition:border-color .15s,background .15s,transform .1s}
+.opts.tf .opt{grid-template-columns:minmax(0,1fr) 22px;min-height:64px;font-weight:700;font-size:17px;text-align:center;padding-left:36px}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt:active:not([disabled]){transform:scale(.985)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt .k{font-weight:700;font-size:13px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+.opt .ic{width:22px;height:22px}
+.opt[disabled]{cursor:default}
+.opt.right{border-color:var(--good);background:var(--good-bg)}
+.opt.right .k{background:var(--good);border-color:var(--good);color:var(--surface)}
+.opt.right .ic{color:var(--good)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.wrong .k{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.opt.wrong .ic{color:var(--bad)}
+.opt.dim{opacity:.55}
+.opt.pop{animation:pop .3s ease}
+@keyframes pop{40%{transform:scale(1.02)}}
+.idform{display:grid;gap:10px}
+.idinput{width:100%;min-height:56px;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--sunk);font-size:17px;outline:none}
+.idinput:focus{border-color:var(--accent);background:var(--surface)}
+.idinput.right{border-color:var(--good);background:var(--good-bg)}
+.idinput.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.note{margin-top:16px;padding:14px 16px;border-radius:12px;background:var(--sunk);border:1px solid var(--line);font-size:15px;line-height:1.55}
+.verdict{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14.5px;margin-bottom:6px}
+.verdict.good{color:var(--good)} .verdict.bad{color:var(--bad)}
+.verdict svg{width:18px;height:18px}
+.note .full{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);color:var(--ink)}
+.note .full small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:2px}
+.override{all:unset;cursor:pointer;margin-top:10px;font-size:13.5px;font-weight:600;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.actionbar{position:sticky;bottom:0;z-index:10;margin-top:14px;padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--bg) 70%,transparent);display:flex;gap:10px;align-items:center}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;min-height:52px;padding:0 20px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:15.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-align:center}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);flex:1}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.primary[disabled]{opacity:.45;cursor:default;filter:none}
+.btn.square{width:52px;padding:0;flex:0 0 auto;color:var(--muted)}
+.btn.small{min-height:40px;padding:0 14px;font-size:14px}
+.btn svg{width:20px;height:20px}
+.kbd-hint{display:none;color:var(--muted);font-size:12.5px;margin-top:10px;text-align:center}
+
+/* flashcards */
+.cards-btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 14px;border-radius:99px;background:var(--accent-bright);color:#1E1608;font-weight:700;font-size:14px}
+.cards-btn:hover{filter:brightness(1.06)}
+.cards-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.cards-btn svg{width:18px;height:18px}
+@media (max-width:479px){.cards-btn{width:40px;padding:0}.cards-btn .lbl{display:none}}
+.btn.wide{display:flex;width:100%;margin-top:14px}
+.badge svg{width:22px;height:22px}
+.qtag.good{color:var(--good);background:var(--good-bg);border-color:transparent}
+.fc-bar{margin-bottom:12px}
+.fc-sel{width:100%;min-height:46px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:15px;font-weight:500}
+.fc-sel:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fc-scene{perspective:1400px}
+.fc{all:unset;box-sizing:border-box;display:grid;width:100%;min-height:320px;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1);border-radius:var(--r);-webkit-tap-highlight-color:transparent}
+.fc.flipped{transform:rotateY(180deg)}
+.fc:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.fc-face{grid-area:1/1;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:22px 18px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fc-front{justify-content:space-between}
+.fc-back{transform:rotateY(180deg);background:var(--accent-soft);border-color:transparent}
+.fc-face .qmeta{margin-bottom:0}
+.fc-q{display:block;font-size:clamp(19px,5vw,23px);line-height:1.5;font-weight:500;text-wrap:pretty;margin:auto 0}
+.fc-hint{display:block;text-align:center;font-size:13px;color:var(--muted)}
+.fc-lab{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.fc-ans{display:block;font-family:var(--f-display);font-weight:700;font-size:clamp(28px,8vw,38px);line-height:1.15;color:var(--accent);text-wrap:balance}
+.fc-ans.code{font-family:var(--f-mono);font-size:clamp(22px,6vw,30px)}
+.fc-full{display:block;font-size:15px;line-height:1.55;padding-top:12px;border-top:1px dashed var(--line)}
+.fc-full small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:2px}
+.fc-actions .btn:not(.square){flex:1;min-width:0;margin-left:0}
+.fc-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.fc-tools .btn svg{width:16px;height:16px}
+.fc-tools .btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+@media (min-width:640px){.fc-face{padding:30px 30px}}
+
+/* results */
+.result{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px 18px;box-shadow:var(--shadow);text-align:center}
+.ring{width:150px;height:150px;margin:6px auto 8px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .bg{fill:none;stroke:var(--sunk);stroke-width:12}
+.ring .fg{fill:none;stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset .8s ease}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-display);font-size:44px;font-weight:700;font-variant-numeric:tabular-nums}
+.result h2{font-family:var(--f-display);font-size:26px;margin:6px 0 4px}
+.result p{color:var(--muted);margin:0 auto;max-width:42ch}
+.rbtns{display:grid;gap:10px;margin-top:20px}
+.panel h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.crow{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:4px 10px;align-items:center;font-size:14px;margin-bottom:10px}
+.crow .b{grid-column:1/-1;height:6px;border-radius:99px;background:var(--sunk);overflow:hidden}
+.crow .b i{display:block;height:100%;background:var(--accent)}
+.crow .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted);font-weight:600}
+.missed{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.missed li{padding:12px 14px;border-radius:12px;background:var(--sunk);font-size:15px;line-height:1.5}
+.missed li small{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+
+@media (min-width:640px){
+  .tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{padding:32px 30px 44px}
+  .qcard{padding:28px 28px 24px}
+  .rbtns{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .kbd-hint{display:block}
+  .seg button{font-size:14px}
+}
+@media (min-width:980px){
+  .shell{display:grid;grid-template-columns:300px minmax(0,1fr);gap:28px;align-items:start}
+  .sheet{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);margin-top:16px;max-height:calc(100vh - 100px);transform:none;visibility:visible;border-radius:var(--r);border:1px solid var(--line);box-shadow:none;padding-bottom:0;transition:none}
+  .grab,.sheet-head .icon-btn,.backdrop,.topics-btn{display:none}
+  .sheet-head{padding-top:16px}
+  main{padding-top:16px}
+  .actionbar{position:static;background:none;padding-bottom:0}
+  .btn.primary{flex:0 1 auto;min-width:220px;margin-left:auto}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="appbar-in">
+    <button class="brand" data-act="home" aria-label="Go to home">
+      <span class="seal">RV</span>
+      <span class="brand-txt"><small id="crumb">Reviewer</small><b id="bartitle">Topic 6 &amp; Life Safety</b></span>
+    </button>
+    <button class="cards-btn" data-act="cards" aria-label="Flashcards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="13" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3"/></svg><span class="lbl">Flashcards</span></button>
+    <button class="topics-btn" data-act="sheet" aria-controls="sheet" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Topics
+    </button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="prog"></i></div>
+</header>
+
+<div class="shell">
+  <aside class="sheet" id="sheet" aria-label="Topics">
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-head">
+      <h2>Topics</h2>
+      <button class="icon-btn" data-act="close" aria-label="Close topics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <nav id="nav"></nav>
+    <div class="sheet-foot">
+      <span class="foot-label">Question type</span>
+      <div class="seg" id="sheetSeg"></div>
+      <label class="switch" for="shuf"><span>Shuffle question order</span><input type="checkbox" id="shuf"><span class="track"></span></label>
+    </div>
+  </aside>
+  <div class="backdrop" id="backdrop" data-act="close"></div>
+  <main id="main" aria-live="polite"></main>
+</div>
+
+<script src="questions.js"></script>
+<script>
+const KEY = "reviewer-t6-ls-v1";
+const ALL = "all";
+/* ---------- difficulty quiz: every item gets a level; each level mixes all topics with its own question formats ---------- */
+const LEVELS = {
+  easy: { name: "Easy", mix: { tf: .5, mc: .5 }, blurb: "Core terms and definitions · True/False and multiple choice" },
+  medium: { name: "Medium", mix: { mc: .7, id: .3 }, blurb: "Classifications, functions and details · mostly multiple choice" },
+  hard: { name: "Hard", mix: { id: .7, mc: .3 }, blurb: "Exact numbers, long answers and technical terms · mostly typed" }
+};
+const isDiff = id => typeof id === "string" && id.startsWith("diff:");
+const isMix = id => id === ALL || isDiff(id);
+const EASY_KINDS = new Set(), HARD_KINDS = new Set(); /* levels are set per question in questions.js */
+function levelOf(it) {
+  if (it.lvl) return it.lvl;
+  if (HARD_KINDS.has(it.kind)) return "hard";
+  if (EASY_KINDS.has(it.kind)) return "easy";
+  if (it.kind === "fill") {
+    const words = it.a.trim().split(/\s+/).length;
+    if (/\d/.test(it.a) || words >= 4) return "hard";
+    if (words <= 1) return "easy";
+    return "medium";
+  }
+  return "medium";
+}
+const MODES = { mc: ["Choice", "Multiple"], id: ["Identify", "Type it"], tf: ["T / F", "True/False"], mix: ["Mixed", "All three"] };
+const MODE_NAME = { mc: "Multiple choice", id: "Identification", tf: "True or False", mix: "Mixed" };
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const total = BANK.reduce((n, t) => n + t.items.length, 0);
+const ICON = {
+  check: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  x: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>',
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>',
+  next: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  cards: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="13" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3"/></svg>',
+  shuffle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>',
+  restart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></svg>'
+};
+
+/* ---------- state ---------- */
+let S = { current: BANK[0].id, view: "home", mode: "mc", shuffle: true, sessions: {}, best: {}, deck: ALL, known: {}, cards: {} };
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch (e) {}
+if (S.current !== ALL && !isDiff(S.current) && !BANK.some(t => t.id === S.current)) S.current = BANK[0].id;
+if (!MODES[S.mode]) S.mode = "mc";
+if (!["home", "quiz", "cards"].includes(S.view)) S.view = "home";
+if (!(S.deck === ALL || (isDiff(S.deck) && LEVELS[S.deck.slice(5)]) || BANK.some(t => t.id === S.deck))) S.deck = ALL;
+if (!S.known || typeof S.known !== "object") S.known = {};
+if (!S.cards || typeof S.cards !== "object") S.cards = {};
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const skey = (id = S.current, mode = S.mode) => isDiff(id) ? id : id + "|" + mode;
+
+/* ---------- bank helpers ---------- */
+const topicById = id => BANK.find(t => t.id === id);
+const getItem = ref => { const t = topicById(ref[0]); const it = t && t.items[ref[1]]; return it ? { t, kind: it[0], a: it[1], text: it[2], alts: it[3] || [], w: it[4], lvl: it[5] } : null; };
+const levelRefs = lv => allRefs().filter(r => levelOf(getItem(r)) === lv);
+const refsFor = id => topicById(id).items.map((_, i) => [id, i]);
+const allRefs = () => BANK.flatMap(t => t.items.map((_, i) => [t.id, i]));
+const norm = s => String(s).toLowerCase().replace(/°/g, "").replace(/\b(the|a|an)\b/g, " ").replace(/[^a-z0-9]+/g, "");
+function accepted(it) {
+  const list = [it.a, ...it.alts];
+  const paren = it.a.match(/^(.*?)\s*\(([^)]+)\)\s*(.*)$/);
+  if (paren) { list.push((paren[1] + " " + paren[3]).trim(), paren[2]); }
+  if (it.kind !== "astm" && it.kind !== "aashto" && it.a.includes("/")) list.push(...it.a.split("/"));
+  return [...new Set(list.map(norm).filter(Boolean))];
+}
+const POOLS = {};
+BANK.forEach(t => t.items.forEach(it => { if (it[0] !== "fill") (POOLS[it[0]] ||= []).push(it); }));
+function distractors(it, n = 3) {
+  if (it.w) return shuffle(it.w).slice(0, n);
+  const ok = new Set(accepted(it));
+  const seen = new Set(), out = [];
+  for (const c of shuffle(POOLS[it.kind] || [])) {
+    const k = norm(c[1]);
+    if (ok.has(k) || seen.has(k) || (c[3] || []).some(x => norm(x) === norm(it.a))) continue;
+    seen.add(k); out.push(c[1]); if (out.length === n) break;
+  }
+  const extra = (typeof KIND_EXTRA !== "undefined" && KIND_EXTRA[it.kind]) || [];
+  for (const x of shuffle(extra)) { if (out.length >= n) break; if (!ok.has(norm(x)) && !seen.has(norm(x))) { seen.add(norm(x)); out.push(x); } }
+  return out;
+}
+function lev(a, b) {
+  const m = a.length, n = b.length; if (Math.abs(m - n) > 2) return 9;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) { const cur = [i]; for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = cur; }
+  return prev[n];
+}
+function checkTyped(it, typed) {
+  const t = norm(typed); if (!t) return false;
+  const acc = accepted(it);
+  if (acc.includes(t)) return true;
+  if (/\d/.test(it.a)) return false; /* numbers must match exactly, no near-miss tolerance */
+  return acc.some(a => { const tol = a.length >= 12 ? 2 : a.length >= 5 ? 1 : 0; return tol && lev(a, t) <= tol; });
+}
+const isCode = it => it.kind === "astm" || it.kind === "aashto";
+function sentence(it, fill, markIt) {
+  const parts = esc(it.text).split("____");
+  const val = fill == null ? '<span class="blank" aria-label="blank"></span>' : (markIt ? `<mark${isCode(it) ? ' class="code"' : ""}>${esc(fill)}</mark>` : esc(fill));
+  return parts.join(val);
+}
+
+/* ---------- sessions ---------- */
+const newSession = (refs, retry) => ({ refs: S.shuffle ? shuffle(refs) : refs, pos: 0, score: 0, ans: {}, gen: {}, retry: !!retry, done: false });
+function session(create = true) {
+  let s = S.sessions[skey()];
+  if (s && s.refs.some(r => !getItem(r))) { delete S.sessions[skey()]; s = null; }
+  if (!s && create && !isMix(S.current)) { s = S.sessions[skey()] = newSession(refsFor(S.current)); save(); }
+  return s || null;
+}
+function genQuestion(s, pos) {
+  if (s.gen[pos]) return s.gen[pos];
+  const it = getItem(s.refs[pos]);
+  let mode;
+  if (isDiff(S.current)) { const m = LEVELS[S.current.slice(5)].mix; let r = Math.random(); mode = Object.keys(m).find(k => (r -= m[k]) < 0) || Object.keys(m)[0]; }
+  else mode = S.mode === "mix" ? ["mc", "id", "tf"][Math.floor(Math.random() * 3)] : S.mode;
+  const g = { mode };
+  if (mode === "mc") g.opts = shuffle([it.a, ...distractors(it)]);
+  if (mode === "tf") { const d = distractors(it, 1)[0]; g.truth = !d || Math.random() < 0.5; g.shown = g.truth ? it.a : d; }
+  s.gen[pos] = g; save();
+  return g;
+}
+function statusLine(s, count) {
+  if (!s) return `${count} questions`;
+  if (s.done) return `Finished · ${s.score}/${s.refs.length}`;
+  const n = Object.keys(s.ans).length;
+  return n ? `${n} of ${s.refs.length} answered${s.retry ? " · retry" : ""}` : `${s.refs.length} questions`;
+}
+const sessionPct = s => s ? Math.round(Object.keys(s.ans).length / s.refs.length * 100) : 0;
+const pctClass = p => p >= 75 ? "good" : "";
+
+/* ---------- chrome ---------- */
+function segHTML() {
+  return Object.entries(MODES).map(([k, [a, b]]) => `<button data-mode="${k}" aria-pressed="${S.mode === k}">${a}<small>${b}</small></button>`).join("");
+}
+function openSheet(open) {
+  $("#sheet").classList.toggle("open", open);
+  $("#backdrop").classList.toggle("open", open);
+  $(".topics-btn").setAttribute("aria-expanded", open);
+  if (open) setTimeout(() => $('#nav [aria-current="true"]')?.scrollIntoView({ block: "nearest" }), 50);
+}
+function navItem(id, badge, title, line, best) {
+  const cur = (S.view === "quiz" && S.current === id) || (S.view === "cards" && S.deck === id);
+  return `<button class="nav-item" data-id="${id}" aria-current="${cur}"><span class="badge">${badge}</span><span class="nav-txt"><b>${esc(title)}</b><span>${line}</span></span><span class="nav-pct ${pctClass(best)}">${best != null ? best + "%" : ""}</span></button>`;
+}
+function renderNav() {
+  let h = navItem(ALL, "∑", "Overall review", S.sessions[skey(ALL)] ? statusLine(S.sessions[skey(ALL)]) : `All ${total} questions, mixed`, S.best[skey(ALL)]);
+  h += `<div class="group-label">Difficulty quiz</div>` + Object.entries(LEVELS).map(([k, L]) => { const id = "diff:" + k, s = S.sessions[id]; return navItem(id, L.name[0], L.name + " quiz", s ? statusLine(s) : `${levelRefs(k).length} questions, all topics`, S.best[id]); }).join("");
+  let n = 0;
+  for (const g of [...new Set(BANK.map(t => t.group))]) {
+    h += `<div class="group-label">${esc(g)}</div>`;
+    for (const t of BANK.filter(t => t.group === g)) { n++; h += navItem(t.id, n, t.title, statusLine(S.sessions[skey(t.id)], t.items.length), S.best[skey(t.id)]); }
+  }
+  $("#nav").innerHTML = h;
+  $("#sheetSeg").innerHTML = segHTML();
+  $("#shuf").checked = S.shuffle;
+}
+const topicNo = id => BANK.findIndex(t => t.id === id) + 1;
+
+/* ---------- views ---------- */
+function render() {
+  renderNav();
+  const main = $("#main");
+  if (S.view === "home") {
+    $("#crumb").textContent = "Reviewer";
+    $("#bartitle").textContent = "Topic 6 & Life Safety";
+    $("#prog").style.width = "0";
+    main.innerHTML = homeHTML(); return;
+  }
+  if (S.view === "cards") {
+    const d = deckCards(); flipped = false;
+    $("#crumb").textContent = "Flashcards";
+    $("#bartitle").textContent = deckName(S.deck);
+    $("#prog").style.width = d.order.length ? Math.min(100, d.pos / d.order.length * 100) + "%" : "0";
+    main.innerHTML = cardsHTML(d); return;
+  }
+  const isAll = S.current === ALL, dv = isDiff(S.current) ? LEVELS[S.current.slice(5)] : null, t = topicById(S.current);
+  $("#crumb").textContent = dv ? "Difficulty quiz · all topics" : isAll ? "All topics · " + MODE_NAME[S.mode] : `${t.group.split(" · ")[0]} · ${t.pages}`;
+  $("#bartitle").textContent = dv ? dv.name + " quiz" : isAll ? "Overall review" : t.title;
+  const s = session();
+  if (!s) { $("#prog").style.width = "0"; main.innerHTML = dv ? diffPickHTML(S.current.slice(5)) : overallPickHTML(); return; }
+  $("#prog").style.width = sessionPct(s) + "%";
+  if (s.pos >= s.refs.length) {
+    main.innerHTML = resultHTML(s);
+    requestAnimationFrame(() => { const fg = $(".ring .fg"); if (fg) fg.style.strokeDashoffset = fg.dataset.to; });
+  } else {
+    main.innerHTML = quizHTML(s);
+    const inp = $("#idinput"); if (inp && !inp.disabled && matchMedia("(min-width:640px)").matches) inp.focus({ preventScroll: true });
+  }
+}
+
+function overallChips() {
+  const sizes = [25, 50, 100].filter(n => n < total);
+  return `<div class="chips">${sizes.map(n => `<button class="chip" data-len="${n}">${n}<small>questions</small></button>`).join("")}<button class="chip primary" data-len="${total}">All<small>${total}</small></button></div>`;
+}
+function homeHTML() {
+  let answered = 0, correct = 0;
+  for (const k in S.sessions) { const s = S.sessions[k]; for (const i in s.ans) { answered++; if (s.ans[i].ok) correct++; } }
+  const acc = answered ? Math.round(correct / answered * 100) + "%" : "–";
+  const ov = S.sessions[skey(ALL)];
+  let n = 0;
+  const groups = [...new Set(BANK.map(t => t.group))].map(g => `<h2 class="sec-title">${esc(g)}</h2><div class="tgrid">${BANK.filter(t => t.group === g).map(t => {
+    n++; const s = S.sessions[skey(t.id)], best = S.best[skey(t.id)], p = sessionPct(s);
+    return `<button class="tcard" data-id="${t.id}"><span class="badge">${n}</span><h3>${esc(t.title)}<span>${esc(t.pages)}</span></h3><p>${esc(t.sub)}</p>
+      <span class="tmeta"><span class="mini"><i style="width:${p}%"></i></span><span>${statusLine(s, t.items.length)}</span>${best != null ? `<span class="best ${pctClass(best)}">Best ${best}%</span>` : ""}</span></button>`;
+  }).join("")}</div>`).join("");
+  return `
+  <section class="hero">
+    <p class="kicker">Reviewer · Septic tanks and fire protection</p>
+    <h1>Topic 6 &amp; Life Safety Systems</h1>
+    <p class="lead">${total} questions taken from the Topic 6 module (on-site sewage treatment) and the Life Safety Systems slides (passive and active fire protection, suppression and fire water systems).</p>
+    <div class="hstats">
+      <div class="hstat"><b>${total}</b><span>questions</span></div>
+      <div class="hstat"><b>${answered}</b><span>answered</span></div>
+      <div class="hstat"><b>${acc}</b><span>accuracy</span></div>
+    </div>
+  </section>
+  <section class="panel raised">
+    <div class="overall-top"><span class="badge">${ICON.cards}</span><div><h2>Flashcards</h2><p class="hint" style="margin:2px 0 0">Flip through the terms and mark what you know. ${deckRefs(ALL).filter(isKnown).length} of ${total} known.</p></div></div>
+    <button class="btn primary wide" data-act="cards">${ICON.cards}Open flashcards</button>
+  </section>
+  <section class="panel">
+    <h2>Question type</h2>
+    <p class="hint">Pick how you want to answer. Each type keeps its own progress.</p>
+    <div class="seg">${segHTML()}</div>
+  </section>
+  <section class="panel">
+    <div class="overall-top"><span class="badge">∑</span><div><h2>Overall review</h2><p class="hint" style="margin:2px 0 0">Every topic mixed together · ${MODE_NAME[S.mode]}</p></div></div>
+    ${ov && !ov.done ? `<div class="resume"><span>Round in progress · ${statusLine(ov)}</span><button class="btn small" data-id="${ALL}">Resume</button></div>` : ""}
+    ${overallChips()}
+  </section>
+  <section class="panel">
+    <h2>Difficulty quiz</h2>
+    <p class="hint">Every topic mixed together. Each level has its own set of questions and its own question types.</p>
+    <div class="diffs">${Object.entries(LEVELS).map(([k, L]) => { const s = S.sessions["diff:" + k], best = S.best["diff:" + k]; return `<div class="diff diff-${k}"><div class="diff-head"><b>${L.name}</b><span>${levelRefs(k).length} questions${best != null ? ` · best ${best}%` : ""}</span></div><p>${L.blurb}</p>${s && !s.done ? `<div class="resume"><span>${statusLine(s)}</span><button class="btn small" data-id="diff:${k}">Resume</button></div>` : ""}${diffChips(k)}</div>`; }).join("")}</div>
+  </section>
+  ${groups}
+  <p class="foot-note">Progress saves on this device.</p>`;
+}
+function diffChips(lv) {
+  const n = levelRefs(lv).length, sizes = [20, 50].filter(x => x < n);
+  return `<div class="chips" style="grid-template-columns:repeat(${sizes.length + 1},minmax(0,1fr))">${sizes.map(x => `<button class="chip" data-lv="${lv}" data-dlen="${x}">${x}<small>questions</small></button>`).join("")}<button class="chip primary" data-lv="${lv}" data-dlen="${n}">All<small>${n}</small></button></div>`;
+}
+function diffPickHTML(lv) {
+  const L = LEVELS[lv];
+  return `<div class="qtop"><button class="back" data-act="home">${ICON.back}Home</button></div>
+  <section class="panel raised" style="margin-top:0"><div class="overall-top"><span class="badge">${L.name[0]}</span><div><h2>${L.name} quiz</h2><p class="hint" style="margin:2px 0 0">${L.blurb}. Questions come from every topic.</p></div></div>${diffChips(lv)}</section>`;
+}
+function overallPickHTML() {
+  return `<div class="qtop"><button class="back" data-act="home">${ICON.back}Home</button></div>
+  <div class="seg quiz-seg">${segHTML()}</div>
+  <section class="panel raised" style="margin-top:0">
+    <div class="overall-top"><span class="badge">∑</span><div><h2>Overall review</h2><p class="hint" style="margin:2px 0 0">Questions from every topic, shuffled together. Each shows which topic it came from.</p></div></div>
+    ${overallChips()}
+  </section>`;
+}
+
+function quizHTML(s) {
+  const it = getItem(s.refs[s.pos]);
+  const g = genQuestion(s, s.pos);
+  const ans = s.ans[s.pos], answered = !!ans;
+  const n = Object.keys(s.ans).length, last = s.pos + 1 === s.refs.length;
+  const tags = `${isDiff(S.current) ? `<span class="qtag kind">${LEVELS[S.current.slice(5)].name}</span>` : ""}${isMix(S.current) ? `<span class="qtag">${topicNo(it.t.id)}. ${esc(it.t.title)}</span>` : ""}<span class="qtag kind">${KINDS[it.kind]}</span>${S.mode === "mix" || isDiff(S.current) ? `<span class="qtag">${MODE_NAME[g.mode]}</span>` : ""}${s.retry ? `<span class="qtag">Retrying missed</span>` : ""}`;
+  let body = "";
+  if (g.mode === "mc") {
+    body = `<p class="ask">Choose what fills the blank.</p><h2 class="q">${sentence(it, null)}</h2><div class="opts" role="group" aria-label="Answer choices">`;
+    g.opts.forEach((o, i) => {
+      let cls = "", ic = "<span></span>";
+      if (answered) { if (o === it.a) { cls = "right" + (ans.v === o ? " pop" : ""); ic = ICON.check; } else if (o === ans.v) { cls = "wrong pop"; ic = ICON.x; } else cls = "dim"; }
+      body += `<button class="opt ${cls}" data-opt="${i}" ${answered ? "disabled" : ""}><span class="k">${"ABCD"[i]}</span><span class="${isCode(it) ? "code" : ""}">${esc(o)}</span>${ic}</button>`;
+    });
+    body += `</div>`;
+  } else if (g.mode === "tf") {
+    body = `<p class="ask">True or False?</p><h2 class="q">${sentence(it, g.shown, true)}</h2><div class="opts tf" role="group" aria-label="True or False">`;
+    [["True", true], ["False", false]].forEach(([label, val], i) => {
+      let cls = "", ic = "<span></span>";
+      if (answered) { if (val === g.truth) { cls = "right" + (ans.v === val ? " pop" : ""); ic = ICON.check; } else if (ans.v === val) { cls = "wrong pop"; ic = ICON.x; } else cls = "dim"; }
+      body += `<button class="opt ${cls}" data-tf="${val}" ${answered ? "disabled" : ""}><span>${label}</span>${ic}</button>`;
+    });
+    body += `</div>`;
+  } else {
+    body = `<p class="ask">Type what fills the blank.</p><h2 class="q">${sentence(it, null)}</h2>
+      <form class="idform" id="idform" autocomplete="off">
+        <input class="idinput ${answered ? (ans.ok ? "right" : "wrong") : ""}" id="idinput" type="text" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Your answer" value="${answered ? esc(ans.v) : ""}" ${answered ? "disabled" : ""} aria-label="Your answer">
+      </form>`;
+  }
+  if (answered) {
+    let head;
+    if (g.mode === "tf") head = ans.ok ? `Correct. It's ${g.truth ? "true" : "false"}.` : `Not quite. It's ${g.truth ? "true" : "false"}.`;
+    else head = ans.ok ? (ans.over ? "Marked correct." : "Correct.") : "Not quite.";
+    const showAns = !ans.ok || g.mode === "id" || (g.mode === "tf" && !g.truth);
+    body += `<div class="note"><span class="verdict ${ans.ok ? "good" : "bad"}">${ans.ok ? ICON.check : ICON.x}${head}</span>
+      ${showAns ? `Answer: <b class="${isCode(it) ? "code" : ""}">${esc(it.a)}</b>` : ""}
+      <div class="full"><small>From the module</small>${sentence(it, it.a, true)}</div>
+      ${g.mode === "id" && !ans.ok ? `<button class="override" data-act="override">I was right, count it</button>` : ""}</div>`;
+  }
+  let primary;
+  if (answered) primary = `<button class="btn primary" data-act="next" id="nextBtn">${last ? "See results" : "Next question"}${ICON.next}</button>`;
+  else if (g.mode === "id") primary = `<button class="btn primary" data-act="check" id="checkBtn">Check answer</button>`;
+  else primary = `<button class="btn primary" disabled>${g.mode === "tf" ? "Choose True or False" : "Choose an answer"}</button>`;
+  const hint = g.mode === "mc" ? "Keys: 1–4 or A–D to answer · Enter for next" : g.mode === "tf" ? "Keys: T or F to answer · Enter for next" : "Press Enter to check, then Enter again for next";
+  return `<div class="qtop"><button class="back" data-act="home">${ICON.back}Home</button><span class="pill"><span class="dot"></span>${s.score} / ${n} correct</span></div>
+  ${isDiff(S.current) ? "" : `<div class="seg quiz-seg">${segHTML()}</div>`}
+  <article class="qcard"><div class="qmeta"><span class="qnum">Q ${s.pos + 1} / ${s.refs.length}</span>${tags}</div>${body}</article>
+  <div class="actionbar"><button class="btn square" data-act="restart" aria-label="Restart this round" title="Restart this round">${ICON.restart}</button>${primary}</div>
+  <p class="kbd-hint">${hint}</p>`;
+}
+
+function resultHTML(s) {
+  const n = s.refs.length, pct = Math.round(s.score / n * 100);
+  const missed = s.refs.map((r, i) => ({ r, i })).filter(x => !(s.ans[x.i] && s.ans[x.i].ok));
+  const head = pct >= 90 ? "Excellent" : pct >= 75 ? "Solid work" : pct >= 50 ? "Getting there" : "Keep going";
+  const msg = pct >= 90 ? "You know this material well." : pct >= 75 ? "Review the misses below and you're set." : pct >= 50 ? "Retry the misses to lock them in." : "Retry the misses, then run it again.";
+  const idx = BANK.findIndex(t => t.id === S.current);
+  const nextT = idx >= 0 && idx < BANK.length - 1 ? BANK[idx + 1] : null;
+  const C = 2 * Math.PI * 62, color = pct >= 75 ? "var(--good)" : pct >= 50 ? "var(--accent)" : "var(--bad)";
+  let breakdown = "";
+  if (isMix(S.current)) {
+    const per = {};
+    s.refs.forEach((r, i) => { const t = topicById(r[0]); per[t.id] ??= { t, n: 0, ok: 0 }; per[t.id].n++; if (s.ans[i] && s.ans[i].ok) per[t.id].ok++; });
+    breakdown = `<section class="panel"><h3>Score by topic</h3>${Object.values(per).sort((a, b) => topicNo(a.t.id) - topicNo(b.t.id)).map(p => {
+      const v = Math.round(p.ok / p.n * 100);
+      return `<div class="crow"><span>${topicNo(p.t.id)}. ${esc(p.t.title)}</span><span class="v">${v}%</span><span class="b"><i style="width:${v}%"></i></span></div>`;
+    }).join("")}</section>`;
+  }
+  return `<div class="qtop"><button class="back" data-act="home">${ICON.back}Home</button></div>
+  <section class="result">
+    <div class="ring"><svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="62"/><circle class="fg" cx="75" cy="75" r="62" stroke="${color}" stroke-dasharray="${C}" stroke-dashoffset="${C}" data-to="${C * (1 - pct / 100)}"/></svg><b>${pct}%</b></div>
+    <h2>${head}</h2>
+    <p>${s.score} of ${n} correct · ${isDiff(S.current) ? LEVELS[S.current.slice(5)].name + " quiz" : MODE_NAME[S.mode]}${s.retry ? " · retry round" : ""}. ${msg}</p>
+    <div class="rbtns">
+      ${missed.length ? `<button class="btn primary" data-act="retry">Retry ${missed.length} missed</button>` : ""}
+      <button class="btn" data-act="restart">${ICON.restart}Start over</button>
+      ${nextT && !isMix(S.current) ? `<button class="btn" data-go="${nextT.id}">Next: ${esc(nextT.title)}</button>` : ""}
+    </div>
+  </section>
+  ${breakdown}
+  ${missed.length ? `<section class="panel"><h3>Review what you missed (${missed.length})</h3><ol class="missed">${missed.map(x => { const it = getItem(x.r); return `<li><small>${topicNo(it.t.id)}. ${esc(it.t.title)} · ${KINDS[it.kind]}</small>${sentence(it, it.a, true)}</li>`; }).join("")}</ol></section>` : ""}`;
+}
+
+/* ---------- actions ---------- */
+function record(ok, v) {
+  const s = session(false); if (!s || s.ans[s.pos]) return;
+  s.ans[s.pos] = { v, ok };
+  if (ok) s.score++; else { try { navigator.vibrate && navigator.vibrate(40); } catch (e) {} }
+  save(); render();
+  if (matchMedia("(max-width:979px)").matches) requestAnimationFrame(() => $(".note")?.scrollIntoView({ block: "nearest", behavior: "smooth" }));
+}
+function chooseMC(i) {
+  const s = session(false); if (S.view !== "quiz" || !s || s.pos >= s.refs.length || s.ans[s.pos]) return;
+  const g = genQuestion(s, s.pos); if (g.mode !== "mc" || g.opts[i] === undefined) return;
+  record(g.opts[i] === getItem(s.refs[s.pos]).a, g.opts[i]);
+}
+function chooseTF(val) {
+  const s = session(false); if (S.view !== "quiz" || !s || s.pos >= s.refs.length || s.ans[s.pos]) return;
+  const g = genQuestion(s, s.pos); if (g.mode !== "tf") return;
+  record(val === g.truth, val);
+}
+function checkID() {
+  const s = session(false); if (!s || s.ans[s.pos]) return;
+  const v = ($("#idinput")?.value || "").trim(); if (!v) { $("#idinput")?.focus(); return; }
+  record(checkTyped(getItem(s.refs[s.pos]), v), v);
+}
+function next() {
+  const s = session(false); if (!s || !s.ans[s.pos]) return;
+  s.pos++;
+  if (s.pos >= s.refs.length) {
+    s.done = true;
+    if (!s.retry) { const pct = Math.round(s.score / s.refs.length * 100), k = skey(); if (S.best[k] == null || pct > S.best[k]) S.best[k] = pct; }
+  }
+  save(); render(); window.scrollTo({ top: 0 });
+}
+function go(id) { if (S.view === "cards") { S.deck = id; openSheet(false); save(); render(); window.scrollTo({ top: 0 }); return; } S.current = id; S.view = "quiz"; openSheet(false); save(); render(); window.scrollTo({ top: 0 }); }
+function startDiff(lv, len) {
+  const id = "diff:" + lv; S.current = id; S.view = "quiz";
+  S.sessions[id] = { refs: shuffle(levelRefs(lv)).slice(0, len), pos: 0, score: 0, ans: {}, gen: {}, retry: false, done: false };
+  openSheet(false); save(); render(); window.scrollTo({ top: 0 });
+}
+function startOverall(len) {
+  S.current = ALL; S.view = "quiz";
+  S.sessions[skey(ALL)] = { refs: shuffle(allRefs()).slice(0, len), pos: 0, score: 0, ans: {}, gen: {}, retry: false, done: false };
+  openSheet(false); save(); render(); window.scrollTo({ top: 0 });
+}
+
+/* ---------- flashcards ---------- */
+const deckRefs = id => id === ALL ? allRefs() : isDiff(id) ? levelRefs(id.slice(5)) : refsFor(id);
+const deckName = id => id === ALL ? "All topics" : isDiff(id) ? LEVELS[id.slice(5)].name + " cards" : topicById(id).title;
+const refKey = r => r[0] + ":" + r[1];
+const isKnown = r => !!S.known[refKey(r)];
+let flipped = false;
+function buildDeck(id, only) {
+  let refs = deckRefs(id); if (only) refs = refs.filter(r => !isKnown(r));
+  return { order: S.shuffle ? shuffle(refs) : refs, pos: 0, only: !!only };
+}
+function deckCards(create = true) {
+  let d = S.cards[S.deck];
+  if (d && d.order.some(r => !getItem(r))) d = null;
+  if (!d && create) { d = S.cards[S.deck] = buildDeck(S.deck, false); save(); }
+  return d || null;
+}
+function deckSelectHTML() {
+  const opt = (id, label) => `<option value="${id}"${S.deck === id ? " selected" : ""}>${esc(label)}</option>`;
+  let h = opt(ALL, `All topics (${total})`);
+  h += `<optgroup label="Difficulty">` + Object.entries(LEVELS).map(([k, L]) => opt("diff:" + k, `${L.name} (${levelRefs(k).length})`)).join("") + `</optgroup>`;
+  let n = 0;
+  for (const g of [...new Set(BANK.map(t => t.group))]) {
+    h += `<optgroup label="${esc(g)}">` + BANK.filter(t => t.group === g).map(t => { n++; return opt(t.id, `${n}. ${t.title} (${t.items.length})`); }).join("") + `</optgroup>`;
+  }
+  return `<select class="fc-sel" id="deckSel" aria-label="Choose a flashcard deck">${h}</select>`;
+}
+function cardsHTML(d) {
+  const refs = deckRefs(S.deck), known = refs.filter(isKnown).length;
+  const top = `<div class="qtop"><button class="back" data-act="home">${ICON.back}Home</button><span class="pill"><span class="dot"></span>${known} / ${refs.length} known</span></div><div class="fc-bar">${deckSelectHTML()}</div>`;
+  if (!d.order.length) return top + `<section class="result"><h2>You know every card</h2><p>Every card in this deck is marked known. Show them all again, or reset your progress for this deck.</p><div class="rbtns"><button class="btn primary" data-act="fcall">Show all cards</button><button class="btn" data-act="fcreset">Reset known</button><button class="btn" data-act="fcquiz">Quiz this deck</button></div></section>`;
+  if (d.pos >= d.order.length) {
+    const unk = d.order.filter(r => !isKnown(r)).length;
+    return top + `<section class="result"><h2>Deck finished</h2><p>${d.order.length - unk} of ${d.order.length} cards in this round are marked known.${unk ? ` ${unk} still to study.` : " Nice work."}</p><div class="rbtns">${unk ? `<button class="btn primary" data-act="fcreview">Study ${unk} unknown</button>` : ""}<button class="btn" data-act="fcrestart">${ICON.restart}Start over</button><button class="btn" data-act="fcquiz">Quiz this deck</button></div></section>`;
+  }
+  const r = d.order[d.pos], it = getItem(r), k = isKnown(r);
+  return top + `<div class="fc-scene"><button class="fc" id="fc" data-act="fcflip" aria-pressed="false" aria-label="Flashcard. Press to flip between the question and the answer.">
+    <span class="fc-face fc-front" aria-hidden="false">
+      <span class="qmeta"><span class="qnum">Card ${d.pos + 1} / ${d.order.length}</span><span class="qtag">${topicNo(it.t.id)}. ${esc(it.t.title)}</span><span class="qtag kind">${KINDS[it.kind]}</span>${k ? `<span class="qtag good">Known</span>` : ""}</span>
+      <span class="fc-q">${sentence(it, null)}</span>
+      <span class="fc-hint">Tap the card to see the answer</span>
+    </span>
+    <span class="fc-face fc-back" aria-hidden="true">
+      <span class="fc-lab">Answer</span>
+      <span class="fc-ans${isCode(it) ? " code" : ""}">${esc(it.a)}</span>
+      <span class="fc-full"><small>From the module</small>${sentence(it, it.a, true)}</span>
+    </span></button></div>
+  <div class="actionbar fc-actions"><button class="btn square" data-act="fcprev" aria-label="Previous card" title="Previous card">${ICON.back}</button><button class="btn" data-act="fcagain">Study again</button><button class="btn primary" data-act="fcknow">Got it</button><button class="btn square" data-act="fcnext" aria-label="Next card" title="Next card">${ICON.next}</button></div>
+  <div class="fc-tools"><button class="btn small" data-act="fcshuffle">${ICON.shuffle}Shuffle</button><button class="btn small" data-act="fconly" aria-pressed="${d.only}">${d.only ? "Unknown only: on" : "Hide known cards"}</button><button class="btn small" data-act="fcquiz">Quiz this deck</button><button class="btn small" data-act="fcreset">Reset known</button></div>
+  <p class="kbd-hint">Keys: Space to flip · ← → to move · G got it · S study again</p>`;
+}
+function fcFlip() {
+  const el = $("#fc"); if (!el) return;
+  flipped = !flipped;
+  el.classList.toggle("flipped", flipped);
+  el.setAttribute("aria-pressed", flipped);
+  $(".fc-front")?.setAttribute("aria-hidden", flipped);
+  $(".fc-back")?.setAttribute("aria-hidden", !flipped);
+}
+function fcMove(dir) { const d = deckCards(false); if (!d) return; d.pos = Math.max(0, Math.min(d.order.length, d.pos + dir)); save(); render(); }
+function fcMark(ok) {
+  const d = deckCards(false); if (!d || d.pos >= d.order.length) return;
+  const key = refKey(d.order[d.pos]);
+  if (ok) S.known[key] = 1; else delete S.known[key];
+  d.pos++; save(); render();
+}
+function fcRebuild(only) { S.cards[S.deck] = buildDeck(S.deck, only); save(); render(); window.scrollTo({ top: 0 }); }
+function fcReset() {
+  let ok = true; try { ok = confirm("Mark every card in this deck as not known?"); } catch (e) {}
+  if (!ok) return;
+  deckRefs(S.deck).forEach(r => { delete S.known[refKey(r)]; });
+  const d = deckCards(false); fcRebuild(d ? d.only : false);
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button, .backdrop"); if (!b) return;
+  if (b.dataset.mode) { S.mode = b.dataset.mode; save(); render(); return; }
+  if (b.dataset.id) return go(b.dataset.id);
+  if (b.dataset.go) return go(b.dataset.go);
+  if (b.dataset.opt != null) return chooseMC(+b.dataset.opt);
+  if (b.dataset.tf != null) return chooseTF(b.dataset.tf === "true");
+  if (b.dataset.dlen) return startDiff(b.dataset.lv, +b.dataset.dlen);
+  if (b.dataset.len) return startOverall(+b.dataset.len);
+  const act = b.dataset.act;
+  if (act === "cards") { if (S.view === "quiz") S.deck = S.current; if (S.view !== "cards") { S.view = "cards"; openSheet(false); save(); render(); window.scrollTo({ top: 0 }); } return; }
+  if (act === "fcflip") return fcFlip();
+  if (act === "fcknow") return fcMark(true);
+  if (act === "fcagain") return fcMark(false);
+  if (act === "fcprev") return fcMove(-1);
+  if (act === "fcnext") return fcMove(1);
+  if (act === "fcshuffle") { const d = deckCards(false); return fcRebuild(d ? d.only : false); }
+  if (act === "fconly") { const d = deckCards(false); return fcRebuild(!(d && d.only)); }
+  if (act === "fcall" || act === "fcrestart") return fcRebuild(false);
+  if (act === "fcreview") return fcRebuild(true);
+  if (act === "fcreset") return fcReset();
+  if (act === "fcquiz") { S.current = S.deck; S.view = "quiz"; openSheet(false); save(); render(); window.scrollTo({ top: 0 }); return; }
+  if (act === "sheet") return openSheet(!$("#sheet").classList.contains("open"));
+  if (act === "close") return openSheet(false);
+  if (act === "home") { S.view = "home"; openSheet(false); save(); render(); window.scrollTo({ top: 0 }); return; }
+  if (act === "check") return checkID();
+  if (act === "next") return next();
+  if (act === "override") { const s = session(false); const a = s && s.ans[s.pos]; if (a && !a.ok) { a.ok = true; a.over = true; s.score++; save(); render(); } return; }
+  if (act === "restart") {
+    if (isDiff(S.current)) { const s = S.sessions[S.current]; delete S.sessions[S.current]; if (s) return startDiff(S.current.slice(5), s.refs.length); }
+    if (S.current === ALL) { const s = S.sessions[skey(ALL)]; delete S.sessions[skey(ALL)]; if (s) return startOverall(s.refs.length); }
+    else S.sessions[skey()] = newSession(refsFor(S.current));
+    save(); render(); window.scrollTo({ top: 0 }); return;
+  }
+  if (act === "retry") {
+    const s = session(false); const missed = s.refs.filter((r, i) => !(s.ans[i] && s.ans[i].ok));
+    S.sessions[skey()] = newSession(missed, true); save(); render(); window.scrollTo({ top: 0 });
+  }
+});
+document.addEventListener("change", e => { if (e.target.id === "deckSel") { S.deck = e.target.value; save(); render(); } });
+document.addEventListener("submit", e => { if (e.target.id === "idform") { e.preventDefault(); const s = session(false); if (s && s.ans[s.pos]) next(); else checkID(); } });
+$("#shuf").addEventListener("change", e => { S.shuffle = e.target.checked; save(); });
+document.addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k === "escape") return openSheet(false);
+  if (document.activeElement && /^(INPUT|SELECT)$/.test(document.activeElement.tagName)) return;
+  if (S.view === "cards") {
+    if (k === "arrowright") { e.preventDefault(); return fcMove(1); }
+    if (k === "arrowleft") { e.preventDefault(); return fcMove(-1); }
+    if (k === "g") return fcMark(true);
+    if (k === "s") return fcMark(false);
+    if ((k === " " || k === "enter") && !(document.activeElement && document.activeElement.closest("button"))) { e.preventDefault(); return fcFlip(); }
+    return;
+  }
+  if (S.view !== "quiz") return;
+  const s = session(false); if (!s || s.pos >= s.refs.length) return;
+  const g = genQuestion(s, s.pos);
+  if (!s.ans[s.pos]) {
+    if (g.mode === "mc") { const map = { "1": 0, "2": 1, "3": 2, "4": 3, a: 0, b: 1, c: 2, d: 3 }; if (k in map) return chooseMC(map[k]); }
+    if (g.mode === "tf") { if (k === "t" || k === "1") return chooseTF(true); if (k === "f" || k === "2") return chooseTF(false); }
+  }
+  if ((k === "enter" || k === "arrowright") && s.ans[s.pos]) { e.preventDefault(); next(); }
+});
+(() => { let y0 = null; const sh = $("#sheet");
+  sh.addEventListener("touchstart", e => { if ($("#nav").scrollTop <= 0 || !e.target.closest("#nav")) y0 = e.touches[0].clientY; }, { passive: true });
+  sh.addEventListener("touchend", e => { if (y0 != null && e.changedTouches[0].clientY - y0 > 70) openSheet(false); y0 = null; }, { passive: true });
+})();
+
+render();
+</script>
+
+</body>
+</html>
